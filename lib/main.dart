@@ -141,34 +141,48 @@ class _DogImageAppState extends State<DogImageApp> {
             child: Center(
               child: _isLoading
                   ? const CircularProgressIndicator()
-                  : _imageUrl != null
-                      ? Padding(
+                  : _imageUrl == null
+                      ? const Text("Bitte wähle einen Hund aus")
+                      : Padding(
                           padding: const EdgeInsets.all(16.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16.0),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 10,
-                                  offset: Offset(0, 5),
-                                ),
-                              ],
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(16.0),
-                              child: Image.network(
-                                _imageUrl!,
-                                width: double.infinity,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        )
-                      : const Text("Bitte wähle einen Hund aus"),
+                          child: DogImage(imageUrl: _imageUrl!),
+                        ),
             ),
           )
         ],
+      ),
+    );
+  }
+}
+
+class DogImage extends StatelessWidget {
+  const DogImage({
+    super.key,
+    required this.imageUrl,
+  });
+
+  final String imageUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16.0),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 10,
+            offset: Offset(0, 5),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16.0),
+        child: Image.network(
+          imageUrl,
+          width: double.infinity,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
